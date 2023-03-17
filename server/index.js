@@ -51,7 +51,7 @@ app.post('/day', verifyToken, upload.single('picture'), createDay)
 // ROUTES
 app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
-app.use('/day', dayRoutes)
+app.use('/days', dayRoutes)
 
 // DB CONNECTION AND START SERVER
 const PORT = process.env.PORT || 6001
