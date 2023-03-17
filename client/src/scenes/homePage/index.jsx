@@ -4,8 +4,8 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import NavBar from "scenes/navbar";
-import UserWidget from "scenes/widgets/UserWidget";
-import MyDayWidget from "scenes/widgets/MyDayWidget";
+import UserCard from "scenes/widgets/UserCard";
+import MyDayForm from "scenes/widgets/MyDayForm";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -26,7 +26,7 @@ const HomePage = () => {
 
         {/* LEFT - USER PROFILE */}
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          <UserWidget userId={_id} picturePath={picturePath} />
+          <UserCard userId={_id} picturePath={picturePath} />
         </Box>
 
         {/* CENTER - DAYS */}
@@ -34,7 +34,7 @@ const HomePage = () => {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         > 
-          <MyDayWidget picturePath={picturePath} />
+          <MyDayForm picturePath={picturePath} />
           {/* <DaysWidget userId={_id} /> */}
         </Box>
 

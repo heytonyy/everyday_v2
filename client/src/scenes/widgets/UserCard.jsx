@@ -5,7 +5,7 @@ import {
     ContactPageOutlined
 } from '@mui/icons-material';
 import { Box, Divider, Typography, useTheme } from '@mui/material';
-import UserImage from 'components/UserImage';
+import AvatarImage from 'components/AvatarImage';
 import FlexBetween from 'components/FlexBetween';
 import WidgetWrapper from 'components/WidgetWrapper';
 import { useSelector } from 'react-redux';
@@ -58,7 +58,7 @@ const UserWidget = ({ userId, picturePath }) => {
                 onClick={() => navigate(`/profile/${userId}`)}
             >
                 <FlexBetween gap="1rem">
-                    <UserImage image={picturePath} />
+                    <AvatarImage image={picturePath} />
                     <Box>
                         <Typography
                             variant="h4"
