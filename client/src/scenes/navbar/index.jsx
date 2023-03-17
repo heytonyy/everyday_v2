@@ -60,7 +60,7 @@ const NavBar = () => {
       >
         Everday
       </Typography>
-      <Typography>
+      <Typography component={'span'}>
         {isNonMobileScreens && (
           <FlexBetween backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
             <InputBase placeholder="Search..." />
@@ -107,8 +107,7 @@ const NavBar = () => {
               <Typography>{user.username}</Typography>
             </MenuItem>
             <MenuItem onClick={() => {
-              // TODO: fix logout bug
-              dispatch(setLogout()).then(() => navigate("/"));
+              dispatch(setLogout());
             }}>Logout</MenuItem>
           </Select>
         </FormControl>
