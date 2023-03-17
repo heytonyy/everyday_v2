@@ -29,24 +29,24 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        min: 6,
+        min: 8,
     },
-    isAdmin: {
-        type: Boolean,
-        default: false,
+    location: {
+        type: String,
+        required: true,
     },
-    profilePicture: {
+    bio: {
+        type: String,
+        required: true,
+        max: 140,
+    },
+    picturePath: {
         type: String,
         default: "",
     },
     friends: {
         type: Array,
         default: [],
-    },
-    bio: {
-        type: String,
-        default: "",
-        max: 140,
     },
     impressions: {
         type: Number,

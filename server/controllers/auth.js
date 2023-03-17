@@ -5,27 +5,39 @@ import User from '../models/User.js';
 // REGISTER
 export const register = async (req, res) => {
     try {
-        // GENERATE NEW PASSWORD
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-        // CREATE NEW USER
-        const newUser = new User({
-            username: req.body.username,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: hashedPassword,
-            profilePicture: req.file.filename,
-        });
-
-        // SAVE USER AND RETURN RESPONSE
-        const user = await newUser.save();
-        res.status(201).json(user);
-    } catch (error) {
-        console.error(error);
+      const {
+        username,
+        firstName,
+        lastName,
+        email,
+        password,
+        picturePath,
+        friends,
+        location,
+        bio,
+      } = req.body;
+  
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(password, salt);
+  
+      const newUser = new User({
+        username,
+        firstName,
+        lastName,
+        email,
+        password: passwordHash,
+        picturePath,
+        friends,
+        location,
+        bio,
+        impressions: 0,
+      });
+      const savedUser = await newUser.save();
+      res.status(201).json(savedUser);
+    } catch (err) {
+      res.status(500).json({ error: err.message });
     }
-}
+  };
 
 // LOGIN
 export const login = async (req, res) => {
@@ -39,7 +51,7 @@ export const login = async (req, res) => {
         if (!validPassword) {
             res.status(400).json("Invalid credentials");
         }
-        const accessToken = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, { expiresIn: "5d" });
+        const accessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "5d" });
         delete user.password;
         res.status(200).json({ user, accessToken });
     } catch (error) {

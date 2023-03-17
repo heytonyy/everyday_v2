@@ -9,11 +9,11 @@ const daySchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    location:  String,
     description: {
         type: String,
         required: true,
     },
-    location:  String,
     picturePath: String,
     userPicturePath: String,
     likes: {
