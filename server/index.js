@@ -10,10 +10,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { verifyToken } from './middleware/auth.js';
 import { register } from './controllers/auth.js';
-import { createDay } from './controllers/day.js';
+import { createDay } from './controllers/days.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
-import dayRoutes from './routes/day.js';
+import daysRoutes from './routes/days.js';
+import User from './models/User.js';
+import Day from './models/Day.js';
+import { users, days } from './data/index.js';
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -46,12 +49,12 @@ const upload = multer({ storage })
 
 // ROUTES WITH FILES
 app.post('/auth/register', upload.single('picture'), register)
-app.post('/day', verifyToken, upload.single('picture'), createDay)
+app.post('/days', verifyToken, upload.single('picture'), createDay)
 
 // ROUTES
 app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
-app.use('/days', dayRoutes)
+app.use('/days', daysRoutes)
 
 // DB CONNECTION AND START SERVER
 const PORT = process.env.PORT || 6001
@@ -60,4 +63,9 @@ mongoose.connect(process.env.MONGO_URL, {
     useUnifiedTopology: true,
 }).then(() => {
     app.listen(PORT, () => console.log(`⚡️[sever]: db connected, listening on port ${PORT}`))
+
+    /* ADD FAKE DATA ONLY ONCES */
+    // User.insertMany(users);
+    // Day.insertMany(days);
+
 }).catch((error) => console.error(`Error connecting to the database. \n${error}`))

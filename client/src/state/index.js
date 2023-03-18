@@ -37,7 +37,7 @@ export const authSlice = createSlice({
         },
         setDay: (state, action) => {
             const updatedDays = state.days.map((day) => {
-                if (day._id === action.payload.day_id) {
+                if (day._id === action.payload.day._id) {
                     return action.payload.day;
                 }
                 return day;

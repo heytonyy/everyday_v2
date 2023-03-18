@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import NavBar from "scenes/navbar";
 import UserCard from "scenes/widgets/UserCard";
 import MyDayForm from "scenes/widgets/MyDayForm";
+import AllDays from "scenes/widgets/AllDays";
+import Advertisements from "scenes/widgets/Advertisement";
+import FriendsList from "scenes/widgets/FriendsList";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -35,15 +38,15 @@ const HomePage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         > 
           <MyDayForm picturePath={picturePath} />
-          {/* <DaysWidget userId={_id} /> */}
+          <AllDays userId={_id} />
         </Box>
 
         {/* RIGHT - ADS & FRIENDS */}
         {isNonMobileScreens && (
           <Box flexBasis="26%">
-            {/* <AdvertWidget /> */}
+            <Advertisements />
             <Box m="2rem 0" />
-            {/* <FriendListWidget userId={_id} /> */}
+            <FriendsList userId={_id} />
           </Box>
         )}
 

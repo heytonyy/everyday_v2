@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const UserWidget = ({ userId, picturePath }) => {
+const UserCard = ({ userId, picturePath }) => {
     const [user, setUser] = useState(null);
     const { palette } = useTheme();
     const navigate = useNavigate();
@@ -140,4 +140,4 @@ const UserWidget = ({ userId, picturePath }) => {
     )
 }
 
-export default UserWidget
+export default UserCard

@@ -48,7 +48,7 @@ export const getUserDay = async (req, res) => {
 }
 
 // UPDATE
-export const likePost = async (req, res) => {
+export const likeDay = async (req, res) => {
     try {
         const { id } = req.params;
         const { userId } = req.body;
