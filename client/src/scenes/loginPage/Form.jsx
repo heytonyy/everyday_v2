@@ -16,6 +16,7 @@ import { setLogin } from 'state';
 import Dropzone from 'react-dropzone';
 import FlexBetween from 'components/FlexBetween';
 
+// FORM VALIDATION SCHEMAS
 const registerSchema = Yup.object().shape({
     username: Yup.string().required('Username is required'),
     firstName: Yup.string().required('First name is required'),
@@ -34,6 +35,7 @@ const loginSchema = Yup.object().shape({
     password: Yup.string().required('Password is required'),
 });
 
+// INITIAL VALUES
 const initialValuesRegister = {
     username: '',
     firstName: '',
@@ -52,12 +54,17 @@ const initialValuesLogin = {
 
 const Form = () => {
     const [pageType, setPageType] = useState('login');
-    const { palette } = useTheme();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isNonMobile = useMediaQuery('(min-width: 600px)');
     const isRegister = pageType === 'register';
     const isLogin = pageType === 'login';
+    
+    const { palette } = useTheme();
+    const main = palette.primary.main;
+    const light = palette.primary.light;
+    const dark = palette.primary.dark;
+    const medium = palette.primary.medium;
 
     const register = async (values, onSubmitProps) => {
         try {
@@ -66,8 +73,7 @@ const Form = () => {
                 formData.append(key, values[key]);
             }
             formData.append('picturePath', values.picture.name);
-            const savedUserResponse = await fetch(
-                'http://localhost:3001/auth/register',
+            const savedUserResponse = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`,
                 {
                     method: 'POST',
                     body: formData,
@@ -85,8 +91,7 @@ const Form = () => {
 
     const login = async (values, onSubmitProps) => {
         try {
-            const loggedInResponse = await fetch(
-                'http://localhost:3001/auth/login',
+            const loggedInResponse = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -96,12 +101,7 @@ const Form = () => {
             const loggedIn = await loggedInResponse.json();
             onSubmitProps.resetForm();
             if (loggedIn) {
-                dispatch(
-                    setLogin({
-                        user: loggedIn.user,
-                        token: loggedIn.token,
-                    })
-                );
+                dispatch(setLogin({ user: loggedIn.user, token: loggedIn.token }));
                 navigate('/home');
             }
         } catch (error) {
@@ -120,24 +120,20 @@ const Form = () => {
             initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
             validationSchema={isLogin ? loginSchema : registerSchema}
         >
-            {({
-                values,
+            {({ values,
                 errors,
                 touched,
                 handleBlur,
                 handleChange,
                 handleSubmit,
                 setFieldValue,
-                resetForm,
-            }) => (
+                resetForm }) => (
                 <form onSubmit={handleSubmit}>
                     <Box
                         display="grid"
                         gap="30px"
                         gridTemplateColumns="repeat(4, minmax(0, 1fr))"
-                        sx={{
-                            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
-                        }}
+                        sx={{ "& > div": { gridColumn: isNonMobile ? undefined : "span 4" } }}
                     >
                         {isRegister && (
                             <>
@@ -193,22 +189,20 @@ const Form = () => {
                                 />
                                 <Box
                                     gridColumn="span 4"
-                                    border={`1px solid ${palette.neutral.medium}`}
+                                    border={`1px solid ${medium}`}
                                     borderRadius="5px"
                                     p="1rem"
                                 >
                                     <Dropzone
                                         acceptedFiles=".jpg, .jpeg, .png"
                                         multiple={false}
-                                        onDrop={(acceptedFiles) => {
-                                            setFieldValue("picture", acceptedFiles[0])
-                                        }}
+                                        onDrop={(acceptedFiles) => setFieldValue("picture", acceptedFiles[0])}
                                     >
                                         {({ getRootProps, getInputProps }) => (
                                             <Box
                                                 {...getRootProps()}
-                                                border={`2px dashed ${palette.primary.main}`}
-                                                p="1rem"
+                                                border={`2px dashed ${main}`}
+                                                padding="1rem"
                                                 sx={{ "&: hover": { cursor: "pointer" } }}
                                             >
                                                 <input {...getInputProps()} />
@@ -249,21 +243,24 @@ const Form = () => {
                             sx={{ gridColumn: "span 4" }}
                         />
                     </Box>
-                    {/* BUTTONS */}
+
                     <Box>
+                        {/* SUBMIT BUTTON */}
                         <Button
                             fullWidth
                             type="submit"
                             sx={{
-                                m: "2rem 0",
-                                p: "1rem",
-                                backgroundColor: palette.primary.main,
+                                margin: "2rem 0",
+                                padding: "1rem",
+                                backgroundColor: main,
                                 color: palette.background.alt,
-                                "&:hover": { color: palette.primary.main },
+                                "&:hover": { color: main },
                             }}
                         >
                             {isLogin ? "Login" : "Register"}
                         </Button>
+
+                        {/* SWAP BETWEEN FORM TYPES */}
                         <Typography
                             onClick={() => {
                                 setPageType(isLogin ? "register" : "login");
@@ -271,17 +268,15 @@ const Form = () => {
                             }}
                             sx={{
                                 textDecoration: "underline",
-                                color: palette.primary.main,
-                                "&:hover": {
-                                    cursor: "pointer",
-                                    color: palette.primary.light,
-                                },
+                                color: main,
+                                "&:hover": { cursor: "pointer", color: light },
                             }}
                         >
                             {isLogin
                                 ? "Don't have an account? Sign up here"
                                 : "Already have an account? Login here"}
                         </Typography>
+
                     </Box>
                 </form>
             )}

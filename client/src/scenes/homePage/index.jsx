@@ -7,7 +7,6 @@ import NavBar from "scenes/navbar";
 import UserCard from "scenes/widgets/UserCard";
 import MyDayForm from "scenes/widgets/MyDayForm";
 import AllDays from "scenes/widgets/AllDays";
-import Advertisements from "scenes/widgets/Advertisement";
 import FriendsList from "scenes/widgets/FriendsList";
 
 const HomePage = () => {
@@ -28,27 +27,22 @@ const HomePage = () => {
       >
 
         {/* LEFT - USER PROFILE */}
-        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
+        <Box 
+          flexBasis={isNonMobileScreens ? "40%" : undefined}
+        >
           <UserCard userId={_id} picturePath={picturePath} />
+          <Box m="2rem 0" />
+          <FriendsList userId={_id} />
         </Box>
 
         {/* CENTER - DAYS */}
         <Box
-          flexBasis={isNonMobileScreens ? "42%" : undefined}
+          flexBasis={isNonMobileScreens ? "55%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         > 
           <MyDayForm picturePath={picturePath} />
           <AllDays userId={_id} />
         </Box>
-
-        {/* RIGHT - ADS & FRIENDS */}
-        {isNonMobileScreens && (
-          <Box flexBasis="26%">
-            <Advertisements />
-            <Box m="2rem 0" />
-            <FriendsList userId={_id} />
-          </Box>
-        )}
 
       </Box>
     </Box>

@@ -8,11 +8,12 @@ import LoginPage from './scenes/loginPage';
 import ProfilePage from './scenes/profilePage';
 import HomePage from './scenes/homePage';
 
+// TODO: types
 function App() {
-  // TODO: types
   const mode = useSelector((state: any) => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state: any) => state.token))
+  const isAuth = Boolean(useSelector((state: any) => state.token));
+
   return <div className="app">
     <BrowserRouter>
       <ThemeProvider theme={theme}>
