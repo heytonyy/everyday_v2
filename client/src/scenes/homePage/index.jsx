@@ -26,21 +26,22 @@ const HomePage = () => {
         justifyContent="space-between"
       >
 
-        {/* LEFT - USER PROFILE */}
-        <Box 
+        {/* LEFT - USER PROFILE & FRIENDS LIST */}
+        <Box
           flexBasis={isNonMobileScreens ? "40%" : undefined}
         >
           <UserCard userId={_id} picturePath={picturePath} />
-          <Box m="2rem 0" />
+          <Box margin="2rem 0" />
           <FriendsList userId={_id} />
         </Box>
 
         {/* CENTER - DAYS */}
         <Box
           flexBasis={isNonMobileScreens ? "55%" : undefined}
-          mt={isNonMobileScreens ? undefined : "2rem"}
-        > 
+          marginTop={isNonMobileScreens ? undefined : "2rem"}
+        >
           <MyDayForm picturePath={picturePath} />
+          <Box margin="2rem 0" />
           <AllDays userId={_id} />
         </Box>
 

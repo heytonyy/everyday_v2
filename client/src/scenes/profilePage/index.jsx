@@ -48,19 +48,19 @@ const ProfilePage = () => {
       >
 
         {/* LEFT - USER PROFILE & FRIENDS LIST */}
-        <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
+        <Box flexBasis={isNonMobileScreens ? "40%" : undefined}>
           <UserCard userId={userId} picturePath={user.picturePath} />
-          <Box m="2rem 0" />
+          <Box margin="2rem 0" />
           <FriendsList userId={userId} />
         </Box>
 
         {/* CENTER - DAYS */}
         <Box
-          flexBasis={isNonMobileScreens ? "42%" : undefined}
-          mt={isNonMobileScreens ? undefined : "2rem"}
+          flexBasis={isNonMobileScreens ? "55%" : undefined}
+          marginTop={isNonMobileScreens ? undefined : "2rem"}
         > 
           <MyDayForm picturePath={user.picturePath} />
-          <Box m="2rem 0" />
+          <Box margin="2rem 0" />
           <AllDays userId={userId} isProfile />
         </Box>
 
