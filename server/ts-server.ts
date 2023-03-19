@@ -8,16 +8,12 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
-import { verifyToken } from "./middleware/auth.js";
-import { register } from "./controllers/auth.js";
-import { createDay } from "./controllers/days.js";
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/users.js";
-import daysRoutes from "./routes/days.js";
-
-// import User from './models/User.js';
-// import Day from './models/Day.js';
-// import { users, days } from './data/index.js';
+import { verifyToken } from "./middleware/auth.token";
+import { register } from "./controllers/auth.controllers";
+import { createDay } from "./controllers/days.controllers";
+import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/users.routes";
+import daysRoutes from "./routes/days.routes";
 
 // CONFIGURATIONS
 const __filename = fileURLToPath(import.meta.url);
@@ -31,9 +27,8 @@ const app = express();
 app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-app.use(morgan("common"));
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(morgan("common"));
 app.use(cors());
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
@@ -60,7 +55,7 @@ app.use("/days", daysRoutes);
 // DB CONNECTION AND START SERVER
 const PORT = process.env.PORT || 6001;
 mongoose
-  .connect(process.env.MONGO_URL, {
+  .connect(process.env.MONGO_URL as string, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -68,10 +63,6 @@ mongoose
     app.listen(PORT, () =>
       console.log(`⚡️[sever]: db connected, listening on port ${PORT}`)
     );
-
-    /* ADD FAKE DATA ONLY ONCES */
-    // User.insertMany(users);
-    // Day.insertMany(days);
   })
   .catch((error) =>
     console.error(`Error connecting to the database. \n${error}`)
