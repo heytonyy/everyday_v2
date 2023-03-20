@@ -1,10 +1,6 @@
-/*
-    REDUX STATE: index.js
-*/
 import { createSlice } from "@reduxjs/toolkit";
-import type { StateType } from "./types";
 
-const initialState: StateType = {
+const initialState = {
   mode: "light",
   user: null,
   token: null,
@@ -30,7 +26,7 @@ export const authSlice = createSlice({
       if (state.user) {
         state.user.friends = action.payload.friends;
       } else {
-        console.error("user friends non existant");
+        console.error("user friends non-existent :(");
       }
     },
     setDays: (state, action) => {
@@ -38,9 +34,7 @@ export const authSlice = createSlice({
     },
     setDay: (state, action) => {
       const updatedDays = state.days.map((day) => {
-        if (day._id === action.payload.day._id) {
-          return action.payload.day;
-        }
+        if (day._id === action.payload.day._id) return action.payload.day;
         return day;
       });
       state.days = updatedDays;

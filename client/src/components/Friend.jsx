@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'components/FlexBetween';
 import AvatarImage from 'components/AvatarImage';
 
-
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

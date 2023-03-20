@@ -1,6 +1,19 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-const daySchema = new Schema<Day>(
+export interface IDay {
+  userId: Schema.Types.ObjectId;
+  username: string;
+  location: string;
+  description: string;
+  picturePath: string;
+  userPicturePath: string;
+  likes: Map<string, boolean>;
+  comments: string[];
+}
+
+export interface IDayModel extends IDay, Document {}
+
+const DaySchema: Schema = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
@@ -30,17 +43,4 @@ const daySchema = new Schema<Day>(
   { timestamps: true }
 );
 
-interface Day {
-  userId: Schema.Types.ObjectId;
-  username: string;
-  location: string;
-  description: string;
-  picturePath: string;
-  userPicturePath: string;
-  likes: Map<string, boolean>;
-  comments: string[];
-}
-
-const DayModel = model<Day>("Day", daySchema);
-
-export { DayModel, Day };
+export default mongoose.model<IDayModel>("Day", DaySchema);

@@ -176,7 +176,7 @@ const NavBar = () => {
               <MenuItem onClick={() => dispatch(setLogout())}>Logout</MenuItem>
             </Select>
           </FormControl>
-          
+
           {/* TOGGLE DARK/LIGHT MODE */}
           <IconButton
             onClick={() => dispatch(setMode())}
@@ -191,7 +191,7 @@ const NavBar = () => {
 
           {/* NOTIFICATIONs */}
           <Notifications sx={{ fontSize: "25px" }}></Notifications>
-          
+
         </FlexBetween>
       </Box>
     )}
