@@ -56,8 +56,8 @@ export const login = async (req: Request, res: Response) => {
 
     const token = jwt.sign({ id: user._id }, jwtSecret);
 
-    // remove password from userInfo
-    const { password: userPassword, ...userInfo } = user;
+    // remove password from userInfo -> user is in db so extra query should be fine?
+    const userInfo = await User.findOne({ email: email }).select("-password");
     res.status(200).json({ token, user: userInfo });
   } catch (error: any) {
     res.status(500).json({ error: error.message });

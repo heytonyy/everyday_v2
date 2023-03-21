@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface IUser {
   username: string;
@@ -9,7 +9,7 @@ export interface IUser {
   location: string;
   bio: string;
   picturePath: string;
-  friends: Schema.Types.ObjectId[];
+  friends: Types.ObjectId[];
   impressions: number;
 }
 
@@ -61,7 +61,7 @@ const UserSchema: Schema = new Schema(
       default: "",
     },
     friends: {
-      type: [Schema.Types.ObjectId],
+      type: [Types.ObjectId],
       ref: "User",
       default: [],
     },

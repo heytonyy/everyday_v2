@@ -1,7 +1,7 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface IDay {
-  userId: Schema.Types.ObjectId;
+  userId: Types.ObjectId;
   username: string;
   location: string;
   description: string;
@@ -16,7 +16,7 @@ export interface IDayModel extends IDay, Document {}
 const DaySchema: Schema = new Schema(
   {
     userId: {
-      type: Schema.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "User",
       required: true,
     },

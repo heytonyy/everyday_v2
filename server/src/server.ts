@@ -68,14 +68,13 @@ const StartServer = () => {
   app.use(express.json());
   app.use(helmet());
   app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-  app.use(morgan("common"));
+  // app.use(morgan("common"));
   app.use(cors());
 
   // STATIC FILES
   app.use("/assets", express.static(path.join(rootDir, "public", "assets")));
   app.use((req, res, next) => {
     console.log(`REQUEST URL: ${req.url}`);
-    console.log(`ASSETS FOLDER: ${path.join(rootDir, "public", "assets")}`);
     next();
   });
 

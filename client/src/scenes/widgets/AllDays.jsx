@@ -9,11 +9,10 @@ const AllDays = ({ userId, isProfile = false }) => {
   const token = useSelector(state => state.token)
 
   const getFeed = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/days`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/days/feed`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log('GET FEED: response', response)
     const data = await response.json();
     dispatch(setDays({ days: data }));
   }
@@ -23,7 +22,6 @@ const AllDays = ({ userId, isProfile = false }) => {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log('GET USER DAYS: response', response)
     const data = await response.json();
     dispatch(setDays({ days: data }));
   }

@@ -24,12 +24,3 @@ router.patch(
 );
 
 export default router;
-
-// import { verifyToken } from "../middleware/auth.token";
-
-// // READ
-// router.get("/:id", verifyToken, getUser);
-// router.get("/:id/friends", verifyToken, getUserFriends);
-
-// // UPDATE
-// router.patch("/:id/:friendId", verifyToken, addRemoveFriend);

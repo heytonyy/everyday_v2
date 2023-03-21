@@ -19,7 +19,7 @@ import { setDay } from 'state';
 
 
 const Day = ({
-  _id,
+  _id: dayId,
   userId,
   username,
   description,
@@ -41,7 +41,7 @@ const Day = ({
   const main = palette.neutral.main;
 
   const patchLike = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/days/${_id}/like`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/days/${dayId}/like`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${token}`,

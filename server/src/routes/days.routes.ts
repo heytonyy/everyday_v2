@@ -25,16 +25,9 @@ router.get(
 
 // UPDATE
 router.patch(
-  "/:userId/like",
+  "/:dayId/like",
   verifyToken as typeof verifyToken & RequestHandler,
   controllers.likeDay
 );
 
 export default router;
-
-// READ
-// router.get("/", verifyToken, getFeedDays);
-// router.get("/:userId", verifyToken, getUserDay);
-
-// UPDATE
-// router.patch("/:id/like", verifyToken, likeDay);
