@@ -7,7 +7,7 @@
 
 # testing
 /coverage
-/data
+/src/data
 /public/assets
 /legacy_server
 
