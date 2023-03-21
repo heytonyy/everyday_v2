@@ -1,5 +1,60 @@
+import { ColorTokens } from "./types";
+import { PaletteColor, PaletteOptions } from "@mui/material/styles";
+import { TypographyOptions } from "@mui/material/styles/createTypography";
+import { ThemeOptions } from "@mui/system";
+
+// i hope i did this right... lmao
+declare module "@mui/material/styles" {
+  interface TypographyStyle {
+    fontFamily?: React.CSSProperties["fontFamily"];
+    fontSize?: React.CSSProperties["fontSize"];
+    fontWeight?: React.CSSProperties["fontWeight"];
+    letterSpacing?: React.CSSProperties["letterSpacing"];
+    lineHeight?: React.CSSProperties["lineHeight"];
+    textTransform?: React.CSSProperties["textTransform"];
+  }
+
+  interface Typography {
+    fontFamily: string;
+    fontSize: number;
+    h1: TypographyStyle;
+    h2: TypographyStyle;
+    h3: TypographyStyle;
+    h4: TypographyStyle;
+    h5: TypographyStyle;
+    h6: TypographyStyle;
+  }
+
+  interface TypeBackground {
+    default: string;
+    alt: string;
+  }
+
+  interface Palette {
+    primary: PaletteColor;
+    neutral: {
+      dark: string;
+      main: string;
+      mediumMain: string;
+      medium: string;
+      light: string;
+    };
+    background: TypeBackground;
+  }
+
+  interface Theme {
+    palette: Palette;
+    typography: TypographyOptions;
+  }
+
+  interface ThemeOptions {
+    palette?: PaletteOptions;
+    typography?: TypographyOptions | ((palette: Palette) => TypographyOptions);
+  }
+}
+
 // color design tokens export
-export const colorTokens = {
+export const colorTokens: ColorTokens = {
   grey: {
     0: "#FFFFFF",
     10: "#F6F6F6",
@@ -30,7 +85,7 @@ export const colorTokens = {
 };
 
 // mui theme settings
-export const themeSettings = (mode) => {
+export const themeSettings = (mode: string): ThemeOptions => {
   return {
     palette: {
       mode: mode,

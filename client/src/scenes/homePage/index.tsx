@@ -2,7 +2,7 @@
   HOMEPAGE: index.jsx
 */
 import { Box, useMediaQuery } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "state/hooks";
 import NavBar from "scenes/navbar";
 import UserCard from "scenes/widgets/UserCard";
 import MyDayForm from "scenes/widgets/MyDayForm";
@@ -11,7 +11,7 @@ import FriendsList from "scenes/widgets/FriendsList";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { _id, picturePath } = useSelector((state) => state.user);
+  const { _id, picturePath } = useAppSelector((state) => state.user!);
 
   return (
     <Box>
@@ -25,11 +25,8 @@ const HomePage = () => {
         gap="0.5rem"
         justifyContent="space-between"
       >
-
         {/* LEFT - USER PROFILE & FRIENDS LIST */}
-        <Box
-          flexBasis={isNonMobileScreens ? "40%" : undefined}
-        >
+        <Box flexBasis={isNonMobileScreens ? "40%" : undefined}>
           <UserCard userId={_id} picturePath={picturePath} />
           <Box margin="2rem 0" />
           <FriendsList userId={_id} />
@@ -44,10 +41,9 @@ const HomePage = () => {
           <Box margin="2rem 0" />
           <AllDays userId={_id} />
         </Box>
-
       </Box>
     </Box>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

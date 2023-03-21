@@ -2,20 +2,26 @@ import {
   ChatBubbleOutlineOutlined,
   FavoriteBorderOutlined,
   FavoriteOutlined,
-} from '@mui/icons-material';
-import {
-  Box,
-  Typography,
-  Divider,
-  IconButton,
-  useTheme
-} from '@mui/material';
-import FlexBetween from 'components/FlexBetween';
-import Friend from 'components/Friend';
-import WidgetWrapper from 'components/WidgetWrapper';
-import { useAppDispatch, useAppSelector } from 'state/hooks';
-import { useState } from 'react';
-import { setDay } from 'state/state';
+} from "@mui/icons-material";
+import { Box, Typography, Divider, IconButton, useTheme } from "@mui/material";
+import FlexBetween from "components/FlexBetween";
+import Friend from "components/Friend";
+import WidgetWrapper from "components/WidgetWrapper";
+import { useAppDispatch, useAppSelector } from "state/hooks";
+import { useState } from "react";
+import { setDay } from "state";
+
+// type DayProps = {
+//   _id: string;
+//   userId: string;
+//   username: string;
+//   description: string;
+//   location: string;
+//   picturePath: string;
+//   userPicturePath: string;
+//   likes: Map<string, boolean>;
+//   comments: string[];
+// };
 
 const Day = ({
   _id: dayId,
@@ -28,26 +34,30 @@ const Day = ({
   likes,
   comments,
 }) => {
-  const [isComments, setIsComments] = useState(false);
   const dispatch = useAppDispatch();
-  const token = useAppSelector(state => state.token);
-  const loggedInUserId = useAppSelector(state => state.user._id);
+  const token = useAppSelector((state) => state.token);
+  const loggedInUserId = useAppSelector((state) => state.user._id);
+  // might need to fix likes for typescript
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
+  const [isComments, setIsComments] = useState(false);
 
   const { palette } = useTheme();
   const primary = palette.primary.main;
   const main = palette.neutral.main;
 
   const patchLike = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/days/${dayId}/like`, {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ userId: loggedInUserId })
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/days/${dayId}/like`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
     const updatedDay = await response.json();
     dispatch(setDay({ day: updatedDay }));
   };
@@ -62,7 +72,7 @@ const Day = ({
         userPicturePath={userPicturePath}
       />
       {/* DAY SECTIONS */}
-      <Typography color={main} sx={{ marginTop: '1rem' }}>
+      <Typography color={main} sx={{ marginTop: "1rem" }}>
         {description}
       </Typography>
       {picturePath && (
@@ -77,7 +87,6 @@ const Day = ({
       {/* DAY LIKES AND COMMENTS */}
       <FlexBetween marginTop="0.25rem">
         <FlexBetween gap="1rem">
-
           {/* LIKES */}
           <FlexBetween gap="0.3rem">
             <IconButton onClick={patchLike}>
@@ -97,17 +106,16 @@ const Day = ({
             </IconButton>
             <Typography> {comments.length} </Typography>
           </FlexBetween>
-
         </FlexBetween>
       </FlexBetween>
       {isComments && (
         <Box marginTop="0.5rem">
           {comments.map((comment, i) => (
-            <Box
-              key={`${username}-${i}`}
-            >
+            <Box key={`${username}-${i}`}>
               <Divider />
-              <Typography sx={{ color: main, margin: "0.5rem 0", paddingLeft: "1rem" }}>
+              <Typography
+                sx={{ color: main, margin: "0.5rem 0", paddingLeft: "1rem" }}
+              >
                 {comment}
               </Typography>
             </Box>
@@ -116,7 +124,7 @@ const Day = ({
         </Box>
       )}
     </WidgetWrapper>
-  )
-}
+  );
+};
 
-export default Day
+export default Day;

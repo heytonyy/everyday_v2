@@ -24,7 +24,7 @@ import WidgetWrapper from '../../components/WidgetWrapper';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'state/hooks';
 
-import { setDays } from 'state/state';
+import { setDays } from 'state';
 
 
 const MyDayForm = ({ picturePath }) => {

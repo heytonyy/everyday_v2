@@ -1,19 +1,20 @@
 import { useMemo } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeOptions } from "@mui/material/styles";
 import { themeSettings } from "./theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "state/hooks";
 import LoginPage from "./scenes/loginPage";
 import ProfilePage from "./scenes/profilePage";
 import HomePage from "./scenes/homePage";
 
-// TODO: types
-
 function App() {
-  const mode = useSelector((state: any) => state.mode);
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-  const isAuth = Boolean(useSelector((state: any) => state.token));
+  const mode = useAppSelector((state) => state.mode);
+  const theme = useMemo(
+    () => createTheme(themeSettings(mode) as ThemeOptions),
+    [mode]
+  );
+  const isAuth = Boolean(useAppSelector((state) => state.token));
 
   return (
     <div className="app">

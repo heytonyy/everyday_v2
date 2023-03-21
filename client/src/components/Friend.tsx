@@ -1,19 +1,27 @@
-import { PersonAddOutlined, PersonRemoveOutlined } from '@mui/icons-material';
-import { Box, IconButton, Typography, useTheme } from '@mui/material';
-import { useAppDispatch, useAppSelector } from 'state/hooks';
-import { setFriends } from 'state/state';
-import { useNavigate } from 'react-router-dom';
-import FlexBetween from 'components/FlexBetween';
-import AvatarImage from 'components/AvatarImage';
+import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "state/hooks";
+import { setFriends } from "state";
+import { useNavigate } from "react-router-dom";
+import FlexBetween from "components/FlexBetween";
+import AvatarImage from "components/AvatarImage";
 
+type FriendProps = {
+  friendId: string;
+  name: string;
+  subtitle: string;
+  userPicturePath: string;
+};
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath }: FriendProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { _id } = useAppSelector(state => state.user);
-  const token = useAppSelector(state => state.token);
-  const friends = useAppSelector(state => state.user.friends);
-  const isFriend = friends.find(friend => friend._id === friendId);
+  const token = useAppSelector((state) => state.token);
+  // using ! tells typescript that the value will never be null
+  const { _id } = useAppSelector((state) => state.user!);
+  const friends = useAppSelector((state) => state.user!.friends);
+
+  const isFriend = friends.find((friend) => friend._id === friendId);
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -22,14 +30,16 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const medium = palette.neutral.medium;
 
   const handlePatchFriend = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}`,
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}`,
       {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
   };
@@ -53,8 +63,8 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
             sx={{
               "&:hover": {
                 color: primaryLight,
-                cursor: 'pointer'
-              }
+                cursor: "pointer",
+              },
             }}
           >
             {name}
@@ -75,7 +85,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         )}
       </IconButton>
     </FlexBetween>
-  )
-}
+  );
+};
 
-export default Friend
+export default Friend;

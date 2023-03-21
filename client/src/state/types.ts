@@ -6,7 +6,7 @@ interface StoreState {
 }
 
 interface User {
-  _id: number;
+  _id: string;
   username: string;
   firstName: string;
   lastName: string;
@@ -21,8 +21,9 @@ interface User {
 }
 
 interface Day {
-  _id: number;
+  _id: string;
   userId: number;
+  username: string;
   location: string;
   description: string;
   picturePath: string;

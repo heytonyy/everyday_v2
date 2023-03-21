@@ -1,26 +1,32 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useAppDispatch, useAppSelector } from 'state/hooks';
+import { useAppDispatch, useAppSelector } from "state/hooks";
 import { useEffect } from "react";
-import { setFriends } from "state/state";
+import { setFriends } from "state";
 
+type FriendsListProps = {
+  userId: string;
+};
 
-const FriendsList = ({ userId }) => {
+const FriendsList = ({ userId }: FriendsListProps) => {
   const dispatch = useAppDispatch();
-  const token = useAppSelector(state => state.token);
-  const friends = useAppSelector(state => state.user.friends);
+  const token = useAppSelector((state) => state.token);
+  const friends = useAppSelector((state) => state.user!.friends);
 
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
 
   const getFriends = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userId}/friends`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/users/${userId}/friends`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    });
+    );
     const data = await response.json();
     dispatch(setFriends({ friends: data }));
   };
@@ -51,7 +57,7 @@ const FriendsList = ({ userId }) => {
         ))}
       </Box>
     </WidgetWrapper>
-  )
-}
+  );
+};
 
-export default FriendsList
+export default FriendsList;

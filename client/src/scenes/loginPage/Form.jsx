@@ -11,7 +11,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { setLogin } from 'state/state';
+import { setLogin } from 'state';
 import { useAppDispatch } from 'state/hooks';
 import Dropzone from 'react-dropzone';
 import FlexBetween from 'components/FlexBetween';
@@ -63,7 +63,7 @@ const Form = () => {
   const { palette } = useTheme();
   const main = palette.primary.main;
   const light = palette.primary.light;
-  const medium = palette.primary.medium;
+  const medium = palette.neutral.medium;
 
   const register = async (values, onSubmitProps) => {
     try {

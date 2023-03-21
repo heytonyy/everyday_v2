@@ -9,7 +9,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist/es/constants";
-import authReducer from "./state";
+import authReducer from ".";
 
 const persistConfig = { key: "root", storage, version: 1 };
 const persistedReducer = persistReducer(persistConfig, authReducer);

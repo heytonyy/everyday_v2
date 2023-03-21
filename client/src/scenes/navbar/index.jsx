@@ -22,9 +22,11 @@ import {
   Close,
 } from '@mui/icons-material';
 import { useAppDispatch, useAppSelector } from 'state/hooks';
-import { setMode, setLogout } from 'state/state';
+import { setMode, setLogout } from 'state';
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'components/FlexBetween';
+
+
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
