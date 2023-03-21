@@ -6,7 +6,6 @@ import http from "http";
 import cors from "cors";
 import multer from "multer";
 import helmet from "helmet";
-import morgan from "morgan";
 import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/users.routes";
 import daysRoutes from "./routes/days.routes";
@@ -14,11 +13,8 @@ import controllers from "./controllers/days.controllers";
 import { register } from "./controllers/auth.controllers";
 import { verifyToken } from "./middleware/auth.token";
 import path from "path";
-import { fileURLToPath } from "url";
 
 // CONFIGURATIONS
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
 const rootDir = path.resolve();
 
 // INSTANTIATE EXPRESS
@@ -68,15 +64,10 @@ const StartServer = () => {
   app.use(express.json());
   app.use(helmet());
   app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
-  // app.use(morgan("common"));
   app.use(cors());
 
   // STATIC FILES
   app.use("/assets", express.static(path.join(rootDir, "public", "assets")));
-  app.use((req, res, next) => {
-    console.log(`REQUEST URL: ${req.url}`);
-    next();
-  });
 
   // ROUTES WITH FILES
   app.post("/auth/register", upload.single("picture"), register);
@@ -94,7 +85,7 @@ const StartServer = () => {
 
   // HEALTH CHECK
   app.get("/health", (req, res, next) => {
-    res.status(200).json({ status: "UP" });
+    res.status(200).json({ status: "UP AND READY TO GO" });
   });
 
   // ERROR HANDLING
