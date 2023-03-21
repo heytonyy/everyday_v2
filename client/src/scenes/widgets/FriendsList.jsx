@@ -1,16 +1,18 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from 'state/hooks';
 import { useEffect } from "react";
-import { setFriends } from "state";
+import { setFriends } from "state/state";
 
 
 const FriendsList = ({ userId }) => {
-  const dispatch = useDispatch();
-  const token = useSelector(state => state.token);
-  const friends = useSelector(state => state.user.friends);
+  const dispatch = useAppDispatch();
+  const token = useAppSelector(state => state.token);
+  const friends = useAppSelector(state => state.user.friends);
+
   const { palette } = useTheme();
+  const dark = palette.neutral.dark;
 
   const getFriends = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${userId}/friends`, {
@@ -30,7 +32,7 @@ const FriendsList = ({ userId }) => {
   return (
     <WidgetWrapper>
       <Typography
-        color={palette.neutral.dark}
+        color={dark}
         variant="h5"
         fontWeight="500"
         sx={{ marginBottom: "1.5rem" }}
@@ -38,9 +40,9 @@ const FriendsList = ({ userId }) => {
         Friend List
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
-        {friends.map((friend) => (
+        {friends.map((friend, i) => (
           <Friend
-            key={friend._id}
+            key={i + friend._id}
             friendId={friend._id}
             name={friend.username}
             subtitle={friend.bio}

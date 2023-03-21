@@ -23,7 +23,8 @@ const createDay = async (req: Request, res: Response) => {
     });
     // save new day
     await newDay.save();
-    res.status(201).json(newDay);
+    const allDays = await Day.find();
+    res.status(201).json(allDays);
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -56,9 +57,8 @@ const likeDay = async (req: Request, res: Response) => {
   const userId = new Types.ObjectId(req.body.userId);
   try {
     const day = await Day.findById(dayId);
-    // if day not found
     if (!day) return res.status(404).json({ message: "Day not found" });
-    // check if userId is already in day's likes list and remove it, otherwise add it
+    // likes map is of type { [key: string]: boolean }
     const isLiked = day.likes.get(userId.toString());
     if (isLiked) {
       day.likes.delete(userId.toString());

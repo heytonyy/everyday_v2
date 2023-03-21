@@ -22,32 +22,34 @@ import Dropzone from 'react-dropzone';
 import AvatarImage from '../../components/AvatarImage';
 import WidgetWrapper from '../../components/WidgetWrapper';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setDays } from 'state';
+import { useAppDispatch, useAppSelector } from 'state/hooks';
+
+import { setDays } from 'state/state';
 
 
 const MyDayForm = ({ picturePath }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { _id } = useAppSelector(state => state.user);
+  const token = useAppSelector(state => state.token);
   const [day, setDay] = useState('');
   const [image, setImage] = useState(null);
   const [isImage, setIsImage] = useState(false);
-  const { palette } = useTheme();
-  const { _id } = useSelector(state => state.user);
-  const token = useSelector(state => state.token);
   const isNonMobileScreens = useMediaQuery('(min-width: 1000px)');
+
+  const { palette } = useTheme();
   const mediumMain = palette.neutral.main;
   const medium = palette.neutral.medium;
 
   const handleDay = async () => {
     // construct form data for day model and make api call
     const formData = new FormData();
-    formData.append('userID', _id);
+    formData.append('userId', _id);
     formData.append('description', day);
     if (image) {
       formData.append('picture', image);
       formData.append('picturePath', image.name);
     }
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/days`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/days/create`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}` },
       body: formData
@@ -56,6 +58,7 @@ const MyDayForm = ({ picturePath }) => {
     const days = await response.json();
     dispatch(setDays({ days }));
     setImage(null);
+    setIsImage(false);
     setDay('');
   };
 

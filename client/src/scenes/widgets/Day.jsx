@@ -13,10 +13,9 @@ import {
 import FlexBetween from 'components/FlexBetween';
 import Friend from 'components/Friend';
 import WidgetWrapper from 'components/WidgetWrapper';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'state/hooks';
 import { useState } from 'react';
-import { setDay } from 'state';
-
+import { setDay } from 'state/state';
 
 const Day = ({
   _id: dayId,
@@ -30,9 +29,9 @@ const Day = ({
   comments,
 }) => {
   const [isComments, setIsComments] = useState(false);
-  const dispatch = useDispatch();
-  const token = useSelector(state => state.token);
-  const loggedInUserId = useSelector(state => state.user._id);
+  const dispatch = useAppDispatch();
+  const token = useAppSelector(state => state.token);
+  const loggedInUserId = useAppSelector(state => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
 

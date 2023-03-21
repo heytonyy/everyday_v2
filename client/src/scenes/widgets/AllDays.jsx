@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { setDays } from 'state'
+import { useAppDispatch, useAppSelector } from 'state/hooks';
+import { setDays } from 'state/state'
 import Day from './Day'
 
 const AllDays = ({ userId, isProfile = false }) => {
-  const dispatch = useDispatch()
-  const days = useSelector(state => state.days)
-  const token = useSelector(state => state.token)
+  const dispatch = useAppDispatch()
+  const days = useAppSelector(state => state.days)
+  const token = useAppSelector(state => state.token)
 
   const getFeed = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/days/feed`, {

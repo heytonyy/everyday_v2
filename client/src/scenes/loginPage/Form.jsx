@@ -11,8 +11,8 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setLogin } from 'state';
+import { setLogin } from 'state/state';
+import { useAppDispatch } from 'state/hooks';
 import Dropzone from 'react-dropzone';
 import FlexBetween from 'components/FlexBetween';
 
@@ -54,7 +54,7 @@ const initialValuesLogin = {
 
 const Form = () => {
   const [pageType, setPageType] = useState('login');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery('(min-width: 600px)');
   const isRegister = pageType === 'register';
@@ -63,7 +63,6 @@ const Form = () => {
   const { palette } = useTheme();
   const main = palette.primary.main;
   const light = palette.primary.light;
-  const dark = palette.primary.dark;
   const medium = palette.primary.medium;
 
   const register = async (values, onSubmitProps) => {

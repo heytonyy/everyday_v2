@@ -1,24 +1,25 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from '@mui/icons-material';
 import { Box, IconButton, Typography, useTheme } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFriends } from 'state';
+import { useAppDispatch, useAppSelector } from 'state/hooks';
+import { setFriends } from 'state/state';
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'components/FlexBetween';
 import AvatarImage from 'components/AvatarImage';
 
+
 const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { _id } = useSelector(state => state.user);
-  const token = useSelector(state => state.token);
-  const friends = useSelector(state => state.user.friends);
+  const { _id } = useAppSelector(state => state.user);
+  const token = useAppSelector(state => state.token);
+  const friends = useAppSelector(state => state.user.friends);
+  const isFriend = friends.find(friend => friend._id === friendId);
+
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
-
-  const isFriend = friends.find(friend => friend._id === friendId);
 
   const handlePatchFriend = async () => {
     const response = await fetch(`${process.env.REACT_APP_API_URL}/users/${_id}/${friendId}`,

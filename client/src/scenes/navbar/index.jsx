@@ -15,32 +15,30 @@ import {
 } from '@mui/material';
 import {
   Search,
-  Message,
   DarkMode,
   LightMode,
   Notifications,
-  Help,
   Menu,
   Close,
 } from '@mui/icons-material';
-import { useDispatch, useSelector } from 'react-redux';
-import { setMode, setLogout } from 'state';
+import { useAppDispatch, useAppSelector } from 'state/hooks';
+import { setMode, setLogout } from 'state/state';
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'components/FlexBetween';
 
 const NavBar = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user);
   const [isMobileMenuToggle, setIsMobileMenuToggle] = useState(false);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
-  const theme = useTheme();
-  const neutralLight = theme.palette.neutral.light;
-  const dark = theme.palette.neutral.dark;
-  const background = theme.palette.background.default;
-  const primaryLight = theme.palette.primary.light;
-  const alt = theme.palette.background.alt;
+  const { palette } = useTheme();
+  const neutralLight = palette.neutral.light;
+  const dark = palette.neutral.dark;
+  const background = palette.background.default;
+  const primaryLight = palette.primary.light;
+  const alt = palette.background.alt;
 
   return <FlexBetween padding="1rem 6%" backgroundColor={alt}>
     <FlexBetween gap="1.75rem">
@@ -81,7 +79,7 @@ const NavBar = () => {
 
         {/* TOGGLE DARK/LIGHT MODE */}
         <IconButton onClick={() => dispatch(setMode())}>
-          {theme.palette.mode === "dark" ? (
+          {palette.mode === "dark" ? (
             <DarkMode sx={{ fontSize: "25px" }} />
           ) : (
             <LightMode sx={{ color: dark, fontSize: "25px" }} />
@@ -182,7 +180,7 @@ const NavBar = () => {
             onClick={() => dispatch(setMode())}
             sx={{ fontSize: "25px" }}
           >
-            {theme.palette.mode === "dark" ? (
+            {palette.mode === "dark" ? (
               <DarkMode sx={{ fontSize: "25px" }} />
             ) : (
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
