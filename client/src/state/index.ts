@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { StoreState } from "./types";
+// import { Day } from "./types";
 
 const initialState: StoreState = {
   mode: "light",
@@ -32,6 +33,19 @@ export const authSlice = createSlice({
     },
     setDays: (state, action) => {
       state.days = action.payload.days;
+      //
+      // TODO: tsx has serialization issues with Map... figure out a solution
+      // const daysWithSerializedLikes = action.payload.days.map((day: Day) => ({
+      //   ...day,
+      //   likes: Array.from(day.likes.entries()),
+      // }));
+      // const daysWithDeserializedLikes = daysWithSerializedLikes.map(
+      //   (day: Day) => ({
+      //     ...day,
+      //     likes: new Map(day.likes),
+      //   })
+      // );
+      // state.days = daysWithDeserializedLikes;
     },
     setDay: (state, action) => {
       const updatedDays = state.days.map((day) => {

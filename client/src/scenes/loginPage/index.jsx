@@ -1,7 +1,10 @@
+/* 
+  LOGIN PAGE: index.jsx
+*/
 import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
 import Form from './Form'
 
-const LoginPage = () => {
+export default function LoginPage() {
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const { palette } = useTheme();
@@ -39,6 +42,4 @@ const LoginPage = () => {
       <Form />
     </Box>
   </Box>
-}
-
-export default LoginPage
+};

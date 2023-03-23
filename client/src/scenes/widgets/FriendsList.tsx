@@ -1,15 +1,12 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import Friend from "components/Friend";
-import WidgetWrapper from "components/WidgetWrapper";
 import { useAppDispatch, useAppSelector } from "state/hooks";
 import { useEffect } from "react";
 import { setFriends } from "state";
+import { UserIdProp } from "state/types";
+import { v4 } from "uuid";
 
-type FriendsListProps = {
-  userId: string;
-};
-
-const FriendsList = ({ userId }: FriendsListProps) => {
+const FriendsList = ({ userId }: UserIdProp) => {
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.token);
   const friends = useAppSelector((state) => state.user!.friends);
@@ -36,27 +33,27 @@ const FriendsList = ({ userId }: FriendsListProps) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <WidgetWrapper>
+    <>
       <Typography
         color={dark}
         variant="h5"
         fontWeight="500"
-        sx={{ marginBottom: "1.5rem" }}
+        sx={{ marginBottom: "1rem" }}
       >
         Friend List
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
         {friends.map((friend, i) => (
           <Friend
-            key={i + friend._id}
-            friendId={friend._id}
+            key={v4()}
+            friendId={friend._id!}
             name={friend.username}
-            subtitle={friend.bio}
-            userPicturePath={friend.picturePath}
+            location={friend.location}
+            picturePath={friend.picturePath}
           />
         ))}
       </Box>
-    </WidgetWrapper>
+    </>
   );
 };
 

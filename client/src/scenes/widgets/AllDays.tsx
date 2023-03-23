@@ -2,11 +2,8 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "state/hooks";
 import { setDays } from "state";
 import Day from "./Day";
-
-type AllDaysProps = {
-  userId: string;
-  isProfile?: boolean;
-};
+import { AllDaysProps } from "state/types";
+import { v4 } from "uuid";
 
 const AllDays = ({ userId, isProfile = false }: AllDaysProps) => {
   const dispatch = useAppDispatch();
@@ -57,7 +54,7 @@ const AllDays = ({ userId, isProfile = false }: AllDaysProps) => {
           comments,
         }) => (
           <Day
-            key={_id}
+            key={v4()}
             _id={_id}
             userId={userId}
             username={username}

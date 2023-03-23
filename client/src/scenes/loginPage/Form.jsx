@@ -52,7 +52,7 @@ const initialValuesLogin = {
   password: '',
 };
 
-const Form = () => {
+export default function Form() {
   const [pageType, setPageType] = useState('login');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -282,5 +282,3 @@ const Form = () => {
     </Formik >
   );
 };
-
-export default Form;

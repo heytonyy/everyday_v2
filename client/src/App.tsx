@@ -7,8 +7,9 @@ import { useAppSelector } from "state/hooks";
 import LoginPage from "./scenes/loginPage";
 import ProfilePage from "./scenes/profilePage";
 import HomePage from "./scenes/homePage";
+import ChatPage from "./scenes/chatPage";
 
-function App() {
+export default function App() {
   const mode = useAppSelector((state) => state.mode);
   const theme = useMemo(
     () => createTheme(themeSettings(mode) as ThemeOptions),
@@ -32,11 +33,17 @@ function App() {
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
             />
+            <Route
+              path="/chat"
+              element={isAuth ? <ChatPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/chat/:friendId"
+              element={isAuth ? <ChatPage /> : <Navigate to="/" />}
+            />
           </Routes>
         </ThemeProvider>
       </BrowserRouter>
     </div>
   );
 }
-
-export default App;

@@ -1,23 +1,18 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import ChatIcon from "@mui/icons-material/Chat";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "state/hooks";
 import { setFriends } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import AvatarImage from "components/AvatarImage";
+import { FriendProps } from "state/types";
 
-type FriendProps = {
-  friendId: string;
-  name: string;
-  subtitle: string;
-  userPicturePath: string;
-};
-
-const Friend = ({ friendId, name, subtitle, userPicturePath }: FriendProps) => {
+const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = useAppSelector((state) => state.token);
-  // using ! tells typescript that the value will never be null
+  // using ? tells typescript that the value will never be null
   const { _id } = useAppSelector((state) => state.user!);
   const friends = useAppSelector((state) => state.user!.friends);
 
@@ -47,7 +42,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }: FriendProps) => {
   return (
     <FlexBetween>
       <FlexBetween gap="1rem">
-        <AvatarImage image={userPicturePath} size="55px" />
+        <AvatarImage image={picturePath} size="55px" />
         <Box
           onClick={() => {
             navigate(`/profile/${friendId}`);
@@ -70,20 +65,32 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }: FriendProps) => {
             {name}
           </Typography>
           <Typography color={medium} fontSize="0.75rem">
-            {subtitle}
+            {location}
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton
-        onClick={() => handlePatchFriend()}
-        sx={{ backgroundColor: primaryLight, padding: "0.6rem" }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
+      <FlexBetween gap="1rem">
+        {/* MESSAGE */}
+        {isFriend && (
+          <IconButton
+            onClick={() => navigate(`/chat/${friendId}`)}
+            sx={{ backgroundColor: primaryLight, padding: "0.6rem" }}
+          >
+            <ChatIcon sx={{ color: primaryDark }} />
+          </IconButton>
         )}
-      </IconButton>
+        {/* ADD/REMOVE FRIEND */}
+        <IconButton
+          onClick={() => handlePatchFriend()}
+          sx={{ backgroundColor: primaryLight, padding: "0.6rem" }}
+        >
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: primaryDark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: primaryDark }} />
+          )}
+        </IconButton>
+      </FlexBetween>
     </FlexBetween>
   );
 };

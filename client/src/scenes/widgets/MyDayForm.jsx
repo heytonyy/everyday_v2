@@ -23,9 +23,7 @@ import AvatarImage from '../../components/AvatarImage';
 import WidgetWrapper from '../../components/WidgetWrapper';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'state/hooks';
-
 import { setDays } from 'state';
-
 
 const MyDayForm = ({ picturePath }) => {
   const dispatch = useAppDispatch();

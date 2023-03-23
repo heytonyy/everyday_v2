@@ -1,5 +1,5 @@
 /* 
-  NAVBAR COMPONENT: index.jsx
+  NAVBAR COMPONENT: index.tsx
 */
 import { useState } from 'react';
 import {
@@ -25,10 +25,9 @@ import { useAppDispatch, useAppSelector } from 'state/hooks';
 import { setMode, setLogout } from 'state';
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'components/FlexBetween';
+// import SearchBar from './SearchBar';
 
-
-
-const NavBar = () => {
+export default function NavBar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
@@ -42,6 +41,7 @@ const NavBar = () => {
   const primaryLight = palette.primary.light;
   const alt = palette.background.alt;
 
+  // TODO: Make fixed at top of page
   return <FlexBetween padding="1rem 6%" backgroundColor={alt}>
     <FlexBetween gap="1.75rem">
 
@@ -69,6 +69,7 @@ const NavBar = () => {
             <IconButton>
               <Search />
             </IconButton>
+            {/* <SearchBar /> */}
           </FlexBetween>
         )}
       </Typography>
@@ -196,6 +197,4 @@ const NavBar = () => {
       </Box>
     )}
   </FlexBetween>
-}
-
-export default NavBar
+};

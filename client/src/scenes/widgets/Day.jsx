@@ -10,18 +10,8 @@ import WidgetWrapper from "components/WidgetWrapper";
 import { useAppDispatch, useAppSelector } from "state/hooks";
 import { useState } from "react";
 import { setDay } from "state";
-
-// type DayProps = {
-//   _id: string;
-//   userId: string;
-//   username: string;
-//   description: string;
-//   location: string;
-//   picturePath: string;
-//   userPicturePath: string;
-//   likes: Map<string, boolean>;
-//   comments: string[];
-// };
+import { v4 } from "uuid";
+// import { DayProps } from "state/types";
 
 const Day = ({
   _id: dayId,
@@ -36,9 +26,9 @@ const Day = ({
 }) => {
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.token);
-  const loggedInUserId = useAppSelector((state) => state.user._id);
+  const loggedInUserId = useAppSelector((state) => state.user?._id);
   // might need to fix likes for typescript
-  const isLiked = Boolean(likes[loggedInUserId]);
+  const isLiked = loggedInUserId !== undefined && likes[loggedInUserId];
   const likeCount = Object.keys(likes).length;
   const [isComments, setIsComments] = useState(false);
 
@@ -68,8 +58,8 @@ const Day = ({
       <Friend
         friendId={userId}
         name={username}
-        subtitle={location}
-        userPicturePath={userPicturePath}
+        location={location}
+        picturePath={userPicturePath}
       />
       {/* DAY SECTIONS */}
       <Typography color={main} sx={{ marginTop: "1rem" }}>
@@ -111,7 +101,7 @@ const Day = ({
       {isComments && (
         <Box marginTop="0.5rem">
           {comments.map((comment, i) => (
-            <Box key={`${username}-${i}`}>
+            <Box key={v4()}>
               <Divider />
               <Typography
                 sx={{ color: main, margin: "0.5rem 0", paddingLeft: "1rem" }}

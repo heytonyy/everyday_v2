@@ -1,11 +1,7 @@
 import { Box } from "@mui/material";
+import { AvatarProps } from "state/types";
 
-interface UserImageProps {
-  image: string;
-  size?: string;
-}
-
-const UserImage = ({ image, size = "60px" }: UserImageProps) => {
+const AvatarImage = ({ image, size = "60px" }: AvatarProps) => {
   return (
     <Box width={size} height={size}>
       {image && (
@@ -21,4 +17,4 @@ const UserImage = ({ image, size = "60px" }: UserImageProps) => {
   );
 };
 
-export default UserImage;
+export default AvatarImage;

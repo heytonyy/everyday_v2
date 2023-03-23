@@ -6,23 +6,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "state/hooks";
 import NavBar from "scenes/navbar";
-import FriendsList from "scenes/widgets/FriendsList";
 import MyDayForm from "scenes/widgets/MyDayForm";
 import AllDays from "scenes/widgets/AllDays";
 import UserCard from "scenes/widgets/UserCard";
+import { User } from "state/types";
 
-type User = {
-  username: string;
-  firstName: string;
-  lastName: string;
-  location: string;
-  bio: string;
-  picturePath: string;
-  impressions: number;
-  friends: User[];
-};
-
-const ProfilePage = () => {
+export default function ProfilePage() {
   const { userId } = useParams();
   const [user, setUser] = useState<User>({
     username: "",
@@ -31,7 +20,6 @@ const ProfilePage = () => {
     location: "",
     bio: "",
     picturePath: "",
-    impressions: 0,
     friends: [],
   });
   const token = useAppSelector((state) => state.token);
@@ -60,7 +48,6 @@ const ProfilePage = () => {
   return (
     <Box>
       <NavBar />
-
       {/* MAIN CONTENT */}
       <Box
         width="100%"
@@ -71,11 +58,9 @@ const ProfilePage = () => {
       >
         {/* LEFT - USER PROFILE & FRIENDS LIST */}
         <Box flexBasis={isNonMobileScreens ? "40%" : undefined}>
-          <UserCard userId={userId!} picturePath={user.picturePath} />
+          <UserCard userId={userId!} />
           <Box margin="2rem 0" />
-          <FriendsList userId={userId!} />
         </Box>
-
         {/* CENTER - DAYS */}
         <Box
           flexBasis={isNonMobileScreens ? "55%" : undefined}
@@ -88,6 +73,4 @@ const ProfilePage = () => {
       </Box>
     </Box>
   );
-};
-
-export default ProfilePage;
+}
