@@ -38,7 +38,7 @@ const Day = ({
 
   const patchLike = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/days/${dayId}/like`,
+      `${process.env.REACT_APP_API_URL}/api/days/${dayId}/like`,
       {
         method: "PATCH",
         headers: {

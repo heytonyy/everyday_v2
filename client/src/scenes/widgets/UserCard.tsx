@@ -33,7 +33,7 @@ const UserCard = ({ userId }: UserIdProp) => {
 
   const getUser = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/users/${userId}`,
+      `${process.env.REACT_APP_API_URL}/api/users/${userId}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },

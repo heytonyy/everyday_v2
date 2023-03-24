@@ -7,10 +7,12 @@ import cors from "cors";
 import multer from "multer";
 import helmet from "helmet";
 import authRoutes from "./routes/auth.routes";
-import userRoutes from "./routes/users.routes";
+import usersRoutes from "./routes/users.routes";
 import daysRoutes from "./routes/days.routes";
-import controllers from "./controllers/days.controllers";
-import { register } from "./controllers/auth.controllers";
+import chatsRoutes from "./routes/chats.routes";
+import messagesRoutes from "./routes/messages.routes";
+import controllers from "./controllers/days.controller";
+import { register } from "./controllers/auth.controller";
 import { verifyToken } from "./middleware/auth.token";
 import path from "path";
 
@@ -52,27 +54,29 @@ const StartServer = () => {
   app.use(helmet());
   app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
   app.use(cors());
-  app.use(morganMiddleware);
+  app.use(morganMiddleware); // logging w morgain & chalk
 
   // STATIC FILES
   app.use("/assets", express.static(path.join(rootDir, "public", "assets")));
 
   // ROUTES WITH FILES
-  app.post("/auth/register", upload.single("picture"), register);
+  app.post("/api/auth/register", upload.single("picture"), register);
   app.post(
-    "/days/create",
+    "/api/days/create",
     verifyToken as typeof verifyToken & RequestHandler,
     upload.single("picture"),
     controllers.createDay
   );
 
   // ROUTES
-  app.use("/auth", authRoutes);
-  app.use("/users", userRoutes);
-  app.use("/days", daysRoutes);
+  app.use("/api/auth", authRoutes);
+  app.use("/api/users", usersRoutes);
+  app.use("/api/days", daysRoutes);
+  app.use("/api/chats", chatsRoutes);
+  app.use("/api/messages", messagesRoutes);
 
   // HEALTH CHECK
-  app.get("/health", (req, res, next) => {
+  app.get("/api/health", (req, res, next) => {
     res.status(200).json({ status: "UP AND READY TO GO" });
   });
 

@@ -21,11 +21,11 @@ import {
   Menu,
   Close,
 } from '@mui/icons-material';
+import ChatIcon from "@mui/icons-material/Chat";
 import { useAppDispatch, useAppSelector } from 'state/hooks';
 import { setMode, setLogout } from 'state';
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'components/FlexBetween';
-// import SearchBar from './SearchBar';
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
@@ -69,7 +69,6 @@ export default function NavBar() {
             <IconButton>
               <Search />
             </IconButton>
-            {/* <SearchBar /> */}
           </FlexBetween>
         )}
       </Typography>
@@ -87,6 +86,11 @@ export default function NavBar() {
           ) : (
             <LightMode sx={{ color: dark, fontSize: "25px" }} />
           )}
+        </IconButton>
+
+        {/* CHAT */}
+        <IconButton onClick={() => navigate(`/chat`)} >
+          <ChatIcon />
         </IconButton>
 
         {/* NOTIFICATONS */}

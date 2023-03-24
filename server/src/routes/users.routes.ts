@@ -1,5 +1,5 @@
 import express, { RequestHandler } from "express";
-import controllers from "../controllers/users.controllers";
+import controller from "../controllers/users.controller";
 import { verifyToken } from "../middleware/auth.token";
 
 const router = express.Router();
@@ -8,19 +8,19 @@ const router = express.Router();
 router.get(
   "/:userId",
   verifyToken as typeof verifyToken & RequestHandler,
-  controllers.getUser
+  controller.getUser
 );
 router.get(
   "/:userId/friends",
   verifyToken as typeof verifyToken & RequestHandler,
-  controllers.getUserFriends
+  controller.getUserFriends
 );
 
 // UPDATE
 router.patch(
   "/:userId/:friendId",
   verifyToken as typeof verifyToken & RequestHandler,
-  controllers.addRemoveFriend
+  controller.addRemoveFriend
 );
 
 export default router;

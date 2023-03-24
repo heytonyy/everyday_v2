@@ -3,6 +3,7 @@ type StoreState = {
   user: User | null;
   token: string | null;
   days: Day[];
+  chats: Chat[];
 };
 
 type User = {
@@ -65,20 +66,31 @@ type AllDaysProps = {
 };
 
 type Chat = {
+  _id: string;
   friendId: string;
-  username: string;
-  bio: string;
-  picturePath: string;
+  createdAt: string;
+};
+
+type ChatProps = {
+  chatId: string;
+};
+
+type ChatResponse = {
+  _id: string;
+  members: string[];
+  createdAt: string;
 };
 
 export type {
   StoreState,
   User,
-  Day,
   UserIdProp,
   FriendProps,
-  AllDaysProps,
-  DayProps,
   AvatarProps,
+  Day,
+  DayProps,
+  AllDaysProps,
   Chat,
+  ChatProps,
+  ChatResponse,
 };

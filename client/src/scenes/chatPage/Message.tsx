@@ -3,7 +3,7 @@ import { Box, useTheme } from "@mui/material";
 const Message = ({ own = false }) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
-  const medium = palette.neutral.medium;
+  const light = palette.neutral.light;
 
   return (
     <Box
@@ -16,7 +16,7 @@ const Message = ({ own = false }) => {
     >
       <Box
         sx={{
-          backgroundColor: own ? medium : primaryLight,
+          backgroundColor: own ? light : primaryLight,
           padding: "0.75rem",
           borderRadius: "0.5rem",
           width: "60%",

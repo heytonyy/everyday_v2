@@ -72,7 +72,7 @@ export default function Form() {
         formData.append(key, values[key]);
       }
       formData.append('picturePath', values.picture.name);
-      const savedUserResponse = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`,
+      const savedUserResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`,
         {
           method: 'POST',
           body: formData,
@@ -90,7 +90,7 @@ export default function Form() {
 
   const login = async (values, onSubmitProps) => {
     try {
-      const loggedInResponse = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`,
+      const loggedInResponse = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

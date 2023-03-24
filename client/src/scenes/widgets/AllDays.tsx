@@ -11,17 +11,20 @@ const AllDays = ({ userId, isProfile = false }: AllDaysProps) => {
   const token = useAppSelector((state) => state.token);
 
   const getFeed = async () => {
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/days/feed`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/days/feed`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     const data = await response.json();
     dispatch(setDays({ days: data }));
   };
 
   const getUserDays = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/days/${userId}`,
+      `${process.env.REACT_APP_API_URL}/api/days/${userId}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },

@@ -1,5 +1,5 @@
 import express, { RequestHandler } from "express";
-import controllers from "../controllers/days.controllers";
+import controller from "../controllers/days.controller";
 import { verifyToken } from "../middleware/auth.token";
 
 const router = express.Router();
@@ -8,26 +8,26 @@ const router = express.Router();
 router.post(
   "/create",
   verifyToken as typeof verifyToken & RequestHandler,
-  controllers.createDay
+  controller.createDay
 );
 
 // READ
 router.get(
   "/feed",
   verifyToken as typeof verifyToken & RequestHandler,
-  controllers.getFeedDays
+  controller.getFeedDays
 );
 router.get(
   "/:userId",
   verifyToken as typeof verifyToken & RequestHandler,
-  controllers.getUserDays
+  controller.getUserDays
 );
 
 // UPDATE
 router.patch(
   "/:dayId/like",
   verifyToken as typeof verifyToken & RequestHandler,
-  controllers.likeDay
+  controller.likeDay
 );
 
 export default router;

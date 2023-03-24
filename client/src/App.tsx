@@ -38,7 +38,7 @@ export default function App() {
               element={isAuth ? <ChatPage /> : <Navigate to="/" />}
             />
             <Route
-              path="/chat/:friendId"
+              path="/chat/:chatId"
               element={isAuth ? <ChatPage /> : <Navigate to="/" />}
             />
           </Routes>

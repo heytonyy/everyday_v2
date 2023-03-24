@@ -7,6 +7,7 @@ const initialState: StoreState = {
   user: null,
   token: null,
   days: [],
+  chats: [],
 };
 
 export const authSlice = createSlice({
@@ -54,11 +55,21 @@ export const authSlice = createSlice({
       });
       state.days = updatedDays;
     },
+    setChats: (state, action) => {
+      state.chats = action.payload.chats;
+    },
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setDays, setDay } =
-  authSlice.actions;
+export const {
+  setMode,
+  setLogin,
+  setLogout,
+  setFriends,
+  setDays,
+  setDay,
+  setChats,
+} = authSlice.actions;
 export default authSlice.reducer;
 
 // OLD JAVASCRIPT CODE NO TYPESCRIPT
