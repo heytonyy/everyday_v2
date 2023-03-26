@@ -12,7 +12,7 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = useAppSelector((state) => state.token);
-  const { _id } = useAppSelector((state) => state.user!);
+  const userId = useAppSelector((state) => state.user!._id);
   const friends = useAppSelector((state) => state.user!.friends);
 
   const isFriend = friends.find((friend) => friend._id === friendId);
@@ -25,7 +25,7 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
 
   const handlePatchFriend = async () => {
     const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/api/users/${_id}/${friendId}`,
+      `${process.env.REACT_APP_API_URL}/api/users/${userId}/${friendId}`,
       {
         method: "PATCH",
         headers: {
@@ -38,9 +38,8 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
     dispatch(setFriends({ friends: data }));
   };
 
-  const goToChat = async () => {
-    const senderId = _id;
-    const formData = { senderId, receiverId: friendId };
+  const navigateToChat = async () => {
+    const formData = { userId, friendId };
     const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chats`, {
       method: "POST",
       headers: {
@@ -49,7 +48,8 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
       },
       body: JSON.stringify(formData),
     });
-    navigate(`/chat/${friendId}`);
+    console.log(response);
+    navigate(`/chat/`);
   };
 
   return (
@@ -86,7 +86,7 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
         {/* MESSAGE */}
         {isFriend && (
           <IconButton
-            onClick={() => goToChat()}
+            onClick={() => navigateToChat()}
             sx={{ backgroundColor: primaryLight, padding: "0.6rem" }}
           >
             <ChatIcon sx={{ color: primaryDark }} />

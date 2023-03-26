@@ -1,22 +1,24 @@
 import { Box, Typography, InputBase, Button, useTheme } from "@mui/material";
 import { useAppSelector } from "state/hooks";
-import { ChatProps } from "state/types";
-import { useState } from "react";
+import { ChatProps, Message as MessageType } from "state/types";
+import { useEffect, useState } from "react";
 import FlexBetween from "components/FlexBetween";
 import Message from "./Message";
 import StatusIndicator from "components/StatusIndicator";
 import AvatarImage from "components/AvatarImage";
+import { v4 } from "uuid";
 
 const Chat = ({ chatId }: ChatProps) => {
   const userId = useAppSelector((state) => state.user!._id);
-  const chats = useAppSelector((state) => state.chats).find(
-    (chat) => chat._id === chatId
+  const token = useAppSelector((state) => state.token);
+  const friendId = useAppSelector((state) => state.chat!.members).find(
+    (fId) => fId !== userId
   );
   const friendInfo = useAppSelector((state) => state.user!.friends).find(
-    (friend) => friend._id === chats?.friendId
+    (friend) => friend._id === friendId
   );
-  const [message, setMessage] = useState("");
-  // TODO: add handler to check to see if friend is online
+  const [sendMessage, setSendMessage] = useState("");
+  const [messages, setMessages] = useState<MessageType[]>();
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -25,14 +27,45 @@ const Chat = ({ chatId }: ChatProps) => {
   const light = palette.neutral.light;
   const alt = palette.background.alt;
 
-  const handleSendMessage = (
+  const handleSendMessage = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    const formData = { message, senderId: userId };
+    const formData = { chatId, senderId: userId, text: sendMessage };
     console.log(formData);
-    setMessage("");
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/messages`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+    console.log(response);
+    setSendMessage("");
+    getMessages();
   };
+
+  const getMessages = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/messages/${chatId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    setMessages(data);
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -80,19 +113,21 @@ const Chat = ({ chatId }: ChatProps) => {
                 overflowY: "scroll",
               }}
             >
-              <Message />
-              <Message own />
-              <Message />
-              <Message />
-              <Message own />
-              <Message />
-              <Message own />
+              {messages &&
+                messages.map((msg) => (
+                  <Message
+                    key={v4()}
+                    own={msg.senderId === userId}
+                    text={msg.text}
+                    createdAt={msg.createdAt}
+                  />
+                ))}
             </Box>
             {/* CHAT BOTTOM: SEND MESSAGE */}
             <FlexBetween gap="1.5rem">
               <InputBase
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                value={sendMessage}
+                onChange={(e) => setSendMessage(e.target.value)}
                 placeholder="Say something..."
                 sx={{
                   width: "100%",

@@ -1,9 +1,28 @@
 import { Box, useTheme } from "@mui/material";
+import { MessageProps } from "state/types";
 
-const Message = ({ own = false }) => {
+const Message = ({ text, own, createdAt }: MessageProps) => {
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
   const light = palette.neutral.light;
+
+  const getElapsedTime = (createdAt: string): string => {
+    const now = new Date();
+    const createdDate = new Date(createdAt);
+    const elapsedMilliseconds = now.getTime() - createdDate.getTime();
+    // Convert milliseconds to seconds, minutes, hours, or days as appropriate
+    const elapsedSeconds = Math.floor(elapsedMilliseconds / 1000);
+    if (elapsedSeconds < 60) return `${elapsedSeconds} seconds ago`;
+
+    const elapsedMinutes = Math.floor(elapsedSeconds / 60);
+    if (elapsedMinutes < 60) return `${elapsedMinutes} minutes ago`;
+
+    const elapsedHours = Math.floor(elapsedMinutes / 60);
+    if (elapsedHours < 24) return `${elapsedHours} hours ago`;
+
+    const elapsedDays = Math.floor(elapsedHours / 24);
+    return `${elapsedDays} days ago`;
+  };
 
   return (
     <Box
@@ -22,13 +41,10 @@ const Message = ({ own = false }) => {
           width: "60%",
         }}
       >
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis
-        perferendis quisquam id corporis maiores unde inventore, magni similique
-        quasi ipsum doloribus, libero repellat alias laudantium vero atque
-        nesciunt mollitia omnis.
+        {text}
       </Box>
       <Box fontSize="0.75rem" marginTop="0.5rem" marginLeft="0.5rem">
-        1 hour ago
+        {getElapsedTime(createdAt)}
       </Box>
     </Box>
   );

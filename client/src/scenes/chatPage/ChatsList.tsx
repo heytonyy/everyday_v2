@@ -1,22 +1,34 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "state/hooks";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { v4 } from "uuid";
-import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
 import AvatarImage from "components/AvatarImage";
 import StatusIndicator from "components/StatusIndicator";
-import { UserIdProp, ChatResponse } from "state/types";
+import { UserIdProp, Chat } from "state/types";
 import { setChats } from "state";
 
 const ChatFriend = ({ userId: friendId }: UserIdProp) => {
-  const navigate = useNavigate();
-  const chatId = useAppSelector((state) => state.chats).find(
-    (chat) => chat.friendId === friendId
-  )?._id;
+  const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.token);
+  const userId = useAppSelector((state) => state.user!._id);
   const friendInfo = useAppSelector((state) => state.user!.friends).find(
     (friend) => friend._id === friendId
   );
+
+  const getChat = async () => {
+    const formData = { userId, friendId };
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chats`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    const data: Chat = await response.json();
+    dispatch(setChats({ chat: data }));
+  };
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -32,7 +44,7 @@ const ChatFriend = ({ userId: friendId }: UserIdProp) => {
               <AvatarImage image={friendInfo.picturePath} size="55px" />
               <StatusIndicator online />
             </FlexBetween>
-            <Box onClick={() => navigate(`/chat/${chatId}`)}>
+            <Box onClick={getChat}>
               <Typography
                 color={main}
                 variant="h5"
@@ -58,9 +70,8 @@ const ChatFriend = ({ userId: friendId }: UserIdProp) => {
 };
 
 const ChatList = ({ userId }: UserIdProp) => {
-  const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.token);
-  const chats = useAppSelector((state) => state.chats);
+  const [chatListState, setChatListState] = useState<Chat[]>([]);
 
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
@@ -75,13 +86,8 @@ const ChatList = ({ userId }: UserIdProp) => {
         },
       }
     );
-    const data: ChatResponse[] = await response.json();
-    const filteredData = data.map((chat) => ({
-      _id: chat._id,
-      friendId: chat.members.find((friendId) => friendId !== userId),
-      createdAt: chat.createdAt,
-    }));
-    dispatch(setChats({ chats: filteredData }));
+    const data: Chat[] = await response.json();
+    setChatListState(data);
   };
 
   useEffect(() => {
@@ -99,8 +105,11 @@ const ChatList = ({ userId }: UserIdProp) => {
         Chat List
       </Typography>
       <Box display="flex" flexDirection="column">
-        {chats &&
-          chats.map((chat) => <ChatFriend key={v4()} userId={chat.friendId} />)}
+        {chatListState &&
+          chatListState.map((chat) => {
+            const friendId = chat.members.find((member) => member !== userId);
+            return friendId && <ChatFriend key={v4()} userId={friendId} />;
+          })}
       </Box>
     </>
   );

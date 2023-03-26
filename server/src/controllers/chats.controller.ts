@@ -8,19 +8,22 @@ export const createChat = async (
   res: Response,
   next: NextFunction
 ) => {
-  const senderIdObj = new Types.ObjectId(req.body.senderId);
-  const receiverIdObj = new Types.ObjectId(req.body.receiverId);
+  const senderIdObj = new Types.ObjectId(req.body.userId);
+  const receiverIdObj = new Types.ObjectId(req.body.friendId);
   try {
-    const findChat = await ChatModel.findOne({
-      members: [senderIdObj, receiverIdObj],
+    // check if chat already exists
+    const chat = await ChatModel.find({
+      members: { $all: [senderIdObj] },
+    }).find({
+      members: { $all: [receiverIdObj] },
     });
-    if (findChat) return res.status(200).json(findChat);
+    if (chat) return res.status(200).json(chat);
     // if chat not found, create new chat
-    const newchat = new ChatModel({
+    const newChat = new ChatModel({
       members: [senderIdObj, receiverIdObj],
     });
-    const savedchat = await newchat.save();
-    res.status(200).json(savedchat);
+    await newChat.save();
+    res.status(200).json(newChat);
   } catch (error) {
     res.status(500).json(error);
   }

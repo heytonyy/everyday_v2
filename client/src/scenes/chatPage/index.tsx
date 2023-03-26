@@ -14,6 +14,8 @@ export default function ChatPage() {
   const userId = useAppSelector((state) => state.user!._id);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
+  console.log(chatId && true);
+
   return (
     <Box>
       <NavBar />

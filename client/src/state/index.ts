@@ -7,7 +7,7 @@ const initialState: StoreState = {
   user: null,
   token: null,
   days: [],
-  chats: [],
+  chat: null,
 };
 
 export const authSlice = createSlice({
@@ -56,7 +56,7 @@ export const authSlice = createSlice({
       state.days = updatedDays;
     },
     setChats: (state, action) => {
-      state.chats = action.payload.chats;
+      state.chat = action.payload.chat;
     },
   },
 });

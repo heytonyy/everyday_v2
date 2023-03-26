@@ -7,6 +7,6 @@ const router = express.Router();
 router.post("/", controller.createChat);
 
 // GET CHAT OF USER
-router.get("/:userId", controller.getChat);
+// router.post("/:friendId", controller.getChat);
 
 export default router;

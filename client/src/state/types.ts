@@ -3,7 +3,7 @@ type StoreState = {
   user: User | null;
   token: string | null;
   days: Day[];
-  chats: Chat[];
+  chat: Chat | null;
 };
 
 type User = {
@@ -65,19 +65,27 @@ type AllDaysProps = {
   isProfile?: boolean;
 };
 
-type Chat = {
-  _id: string;
-  friendId: string;
-  createdAt: string;
-};
-
 type ChatProps = {
   chatId: string;
 };
 
-type ChatResponse = {
+type Chat = {
   _id: string;
   members: string[];
+  createdAt: string;
+};
+
+type Message = {
+  _id: string;
+  chatId: string;
+  senderId: string;
+  text: string;
+  createdAt: string;
+};
+
+type MessageProps = {
+  own: boolean;
+  text: string;
   createdAt: string;
 };
 
@@ -92,5 +100,6 @@ export type {
   AllDaysProps,
   Chat,
   ChatProps,
-  ChatResponse,
+  Message,
+  MessageProps,
 };

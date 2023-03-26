@@ -14,11 +14,11 @@ const MessageSchema: Schema = new Schema(
       type: Types.ObjectId,
       ref: "Chat",
     },
-    sender: {
+    senderId: {
       type: Types.ObjectId,
       ref: "User",
     },
-    message: {
+    text: {
       type: String,
     },
   },
