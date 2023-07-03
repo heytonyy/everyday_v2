@@ -7,10 +7,7 @@ interface DropzoneProps {
   children: React.ReactNode;
 }
 
-export const DropzoneComponent: React.FC<DropzoneProps> = ({
-  onDrop,
-  children,
-}) => {
+export default function DropzoneComponent({ onDrop, children }: DropzoneProps) {
   const { getRootProps, getInputProps } = useDropzone({
     multiple: false,
     accept: {
@@ -37,4 +34,4 @@ export const DropzoneComponent: React.FC<DropzoneProps> = ({
       {children}
     </Box>
   );
-};
+}

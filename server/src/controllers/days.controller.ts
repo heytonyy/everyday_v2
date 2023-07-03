@@ -57,7 +57,10 @@ const likeDay = async (req: Request, res: Response) => {
   const userId = new Types.ObjectId(req.body.userId);
   try {
     const day = await Day.findById(dayId);
-    if (!day) return res.status(404).json({ message: "Day not found" });
+    if (!day) {
+      return res.status(404).json({ message: "Day not found" });
+    }
+
     // likes map is of type { [key: string]: boolean }
     const isLiked = day.likes.get(userId.toString());
     if (isLiked) {
@@ -65,6 +68,7 @@ const likeDay = async (req: Request, res: Response) => {
     } else {
       day.likes.set(userId.toString(), true);
     }
+
     // save updated day and send it to frontend
     const updatedDay = await Day.findByIdAndUpdate(
       dayId,

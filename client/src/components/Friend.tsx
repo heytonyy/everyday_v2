@@ -8,7 +8,12 @@ import FlexBetween from "components/FlexBetween";
 import AvatarImage from "components/AvatarImage";
 import { FriendProps } from "state/types";
 
-const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
+export default function Friend({
+  friendId,
+  name,
+  location,
+  picturePath,
+}: FriendProps) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const token = useAppSelector((state) => state.token);
@@ -38,19 +43,19 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
     dispatch(setFriends({ friends: data }));
   };
 
-  const navigateToChat = async () => {
-    const formData = { userId, friendId };
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chats`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-    console.log(response);
-    navigate(`/chat/`);
-  };
+  // const navigateToChat = async () => {
+  //   const formData = { userId, friendId };
+  //   const response = await fetch(`${process.env.REACT_APP_API_URL}/api/chats`, {
+  //     method: "POST",
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(formData),
+  //   });
+  //   console.log(response);
+  //   navigate(`/chat/`);
+  // };
 
   return (
     <FlexBetween>
@@ -83,15 +88,6 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
         </Box>
       </FlexBetween>
       <FlexBetween gap="1rem">
-        {/* MESSAGE */}
-        {isFriend && (
-          <IconButton
-            onClick={() => navigateToChat()}
-            sx={{ backgroundColor: primaryLight, padding: "0.6rem" }}
-          >
-            <ChatIcon sx={{ color: primaryDark }} />
-          </IconButton>
-        )}
         {/* ADD/REMOVE FRIEND */}
         <IconButton
           onClick={() => handlePatchFriend()}
@@ -106,6 +102,4 @@ const Friend = ({ friendId, name, location, picturePath }: FriendProps) => {
       </FlexBetween>
     </FlexBetween>
   );
-};
-
-export default Friend;
+}

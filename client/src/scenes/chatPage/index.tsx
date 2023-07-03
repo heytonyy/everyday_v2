@@ -2,19 +2,20 @@
   CHAT PAGE: index.jsx
 */
 import { Box, useMediaQuery } from "@mui/material";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 import { useAppSelector } from "state/hooks";
 import NavBar from "scenes/navbar";
 import WidgetWrapper from "components/WidgetWrapper";
 import Chat from "./Chat";
 import ChatsList from "./ChatsList";
+import { useEffect } from "react";
 
 export default function ChatPage() {
-  const { chatId } = useParams();
   const userId = useAppSelector((state) => state.user!._id);
+  const chatId = useAppSelector((state) => state.chat?._id);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
 
-  console.log(chatId && true);
+  useEffect(() => {}, [chatId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box>

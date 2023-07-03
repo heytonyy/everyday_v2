@@ -1,6 +1,5 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "state/hooks";
-import { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import FlexBetween from "components/FlexBetween";
 import AvatarImage from "components/AvatarImage";
@@ -69,30 +68,11 @@ const ChatFriend = ({ userId: friendId }: UserIdProp) => {
   );
 };
 
-const ChatList = ({ userId }: UserIdProp) => {
-  const token = useAppSelector((state) => state.token);
-  const [chatListState, setChatListState] = useState<Chat[]>([]);
+export default function ChatList({ userId }: UserIdProp) {
+  const friendsList = useAppSelector((state) => state.user!.friends);
 
   const { palette } = useTheme();
   const dark = palette.neutral.dark;
-
-  const getChats = async () => {
-    const response = await fetch(
-      `${process.env.REACT_APP_API_URL}/api/chats/${userId}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    const data: Chat[] = await response.json();
-    setChatListState(data);
-  };
-
-  useEffect(() => {
-    getChats();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -105,14 +85,12 @@ const ChatList = ({ userId }: UserIdProp) => {
         Chat List
       </Typography>
       <Box display="flex" flexDirection="column">
-        {chatListState &&
-          chatListState.map((chat) => {
-            const friendId = chat.members.find((member) => member !== userId);
-            return friendId && <ChatFriend key={v4()} userId={friendId} />;
-          })}
+        {friendsList &&
+          friendsList.map(
+            (friend) =>
+              friend._id && <ChatFriend key={v4()} userId={friend._id} />
+          )}
       </Box>
     </>
   );
-};
-
-export default ChatList;
+}

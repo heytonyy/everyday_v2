@@ -1,14 +1,6 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import { model, InferSchemaType, Schema, Types } from "mongoose";
 
-export interface IMessage {
-  chatId: Types.ObjectId;
-  sender: Types.ObjectId;
-  message: string;
-}
-
-export interface IMessageModel extends IMessage, Document {}
-
-const MessageSchema: Schema = new Schema(
+const MessageSchema = new Schema(
   {
     chatId: {
       type: Types.ObjectId,
@@ -25,4 +17,6 @@ const MessageSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model<IMessageModel>("Message", MessageSchema);
+type Message = InferSchemaType<typeof MessageSchema>;
+
+export default model<Message>("Message", MessageSchema);

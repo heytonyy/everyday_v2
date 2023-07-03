@@ -3,10 +3,10 @@ import controller from "../controllers/chats.controller";
 
 const router = express.Router();
 
-// CREATE CHAT
-router.post("/", controller.createChat);
+// GET OR CREATE CHAT
+router.post("/", controller.getOrCreateChat);
 
-// GET CHAT OF USER
-// router.post("/:friendId", controller.getChat);
+// GET CHATS BY USER ID
+router.get("/:userId", controller.getChatsByUserId);
 
 export default router;

@@ -1,12 +1,6 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+import { model, InferSchemaType, Schema, Types } from "mongoose";
 
-export interface IChat {
-  members: [Types.ObjectId];
-}
-
-export interface IChatModel extends IChat, Document {}
-
-const ChatSchema: Schema = new Schema(
+const ChatSchema = new Schema(
   {
     members: {
       type: [Types.ObjectId],
@@ -16,4 +10,6 @@ const ChatSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-export default mongoose.model<IChatModel>("Chat", ChatSchema);
+type Chat = InferSchemaType<typeof ChatSchema>;
+
+export default model<Chat>("Chat", ChatSchema);

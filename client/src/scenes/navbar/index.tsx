@@ -26,11 +26,14 @@ import { useAppDispatch, useAppSelector } from "state/hooks";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
+import { setChats } from "state";
+import { Chat } from "state/types";
 
 export default function NavBar() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const user = useAppSelector((state) => state.user!);
+  const token = useAppSelector((state) => state.token);
   const [isMobileMenuToggle, setIsMobileMenuToggle] = useState(false);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -40,6 +43,22 @@ export default function NavBar() {
   const background = palette.background.default;
   const primaryLight = palette.primary.light;
   const alt = palette.background.alt;
+
+  const getInitialChatId = async () => {
+    const response = await fetch(
+      `${process.env.REACT_APP_API_URL}/api/chats/${user._id}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data: Chat = await response.json();
+    console.log(data);
+    dispatch(setChats({ chat: data }));
+    navigate(`/chat`);
+  };
 
   // TODO: Make fixed at top of page
   return (
@@ -65,7 +84,7 @@ export default function NavBar() {
               gap="3rem"
               padding="0.1rem 1.5rem"
             >
-              <InputBase placeholder="Search..." />
+              <InputBase id="search-field" placeholder="Search..." />
               <IconButton>
                 <Search />
               </IconButton>
@@ -78,7 +97,7 @@ export default function NavBar() {
       {isNonMobileScreens ? (
         <FlexBetween gap="2rem">
           {/* CHAT */}
-          <IconButton onClick={() => navigate(`/chat`)}>
+          <IconButton onClick={() => getInitialChatId()}>
             <ChatIcon sx={{ color: dark, fontSize: "25px" }} />
           </IconButton>
 
@@ -90,9 +109,6 @@ export default function NavBar() {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-
-          {/* NOTIFICATONS
-        <Notifications sx={{ fontSize: "25px" }}></Notifications> */}
 
           {/* DROPDOWN MENU */}
           <FormControl
@@ -115,7 +131,7 @@ export default function NavBar() {
                   backgroundColor: neutralLight,
                 },
               }}
-              input={<InputBase />}
+              input={<InputBase id="navbar-dropdown" />}
             >
               <MenuItem value={user.username}>
                 <Typography>{user.username}</Typography>

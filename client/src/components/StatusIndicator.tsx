@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-const StatusIndicator = ({ online = false }) => {
+export default function StatusIndicator({ online = false }) {
   return (
     <Box
       sx={{
@@ -24,5 +24,4 @@ const StatusIndicator = ({ online = false }) => {
       }}
     />
   );
-};
-export default StatusIndicator;
+}

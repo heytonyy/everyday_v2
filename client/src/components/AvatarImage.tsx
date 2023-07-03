@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { AvatarProps } from "state/types";
 
-const AvatarImage = ({ image, size = "60px" }: AvatarProps) => {
+export default function AvatarImage({ image, size = "60px" }: AvatarProps) {
   return (
     <Box width={size} height={size}>
       {image && (
@@ -15,6 +15,4 @@ const AvatarImage = ({ image, size = "60px" }: AvatarProps) => {
       )}
     </Box>
   );
-};
-
-export default AvatarImage;
+}

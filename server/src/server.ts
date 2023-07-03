@@ -54,7 +54,7 @@ const StartServer = () => {
   app.use(helmet());
   app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
   app.use(cors());
-  app.use(morganMiddleware); // logging w morgain & chalk
+  app.use(morganMiddleware); // logging w morgan & chalk
 
   // STATIC FILES
   app.use("/assets", express.static(path.join(rootDir, "public", "assets")));

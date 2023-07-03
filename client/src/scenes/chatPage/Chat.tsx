@@ -8,9 +8,9 @@ import StatusIndicator from "components/StatusIndicator";
 import AvatarImage from "components/AvatarImage";
 import { v4 } from "uuid";
 
-const Chat = ({ chatId }: ChatProps) => {
-  const userId = useAppSelector((state) => state.user!._id);
+export default function Chat({ chatId }: ChatProps) {
   const token = useAppSelector((state) => state.token);
+  const userId = useAppSelector((state) => state.user!._id);
   const friendId = useAppSelector((state) => state.chat!.members).find(
     (fId) => fId !== userId
   );
@@ -32,7 +32,6 @@ const Chat = ({ chatId }: ChatProps) => {
   ) => {
     e.preventDefault();
     const formData = { chatId, senderId: userId, text: sendMessage };
-    console.log(formData);
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/api/messages`,
       {
@@ -44,7 +43,6 @@ const Chat = ({ chatId }: ChatProps) => {
         body: JSON.stringify(formData),
       }
     );
-    console.log(response);
     setSendMessage("");
     getMessages();
   };
@@ -126,6 +124,7 @@ const Chat = ({ chatId }: ChatProps) => {
             {/* CHAT BOTTOM: SEND MESSAGE */}
             <FlexBetween gap="1.5rem">
               <InputBase
+                id="message-field"
                 value={sendMessage}
                 onChange={(e) => setSendMessage(e.target.value)}
                 placeholder="Say something..."
@@ -155,5 +154,4 @@ const Chat = ({ chatId }: ChatProps) => {
       )}
     </>
   );
-};
-export default Chat;
+}
