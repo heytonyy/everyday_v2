@@ -63,7 +63,7 @@ export default function Chat({ chatId }: ChatProps) {
 
   useEffect(() => {
     getMessages();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [chatId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

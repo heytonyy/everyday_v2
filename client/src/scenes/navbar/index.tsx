@@ -45,6 +45,8 @@ export default function NavBar() {
   const alt = palette.background.alt;
 
   const getInitialChatId = async () => {
+    console.log(`UserId: ${user._id}`);
+
     const response = await fetch(
       `${process.env.REACT_APP_API_URL}/api/chats/${user._id}`,
       {

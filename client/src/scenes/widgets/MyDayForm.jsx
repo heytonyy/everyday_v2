@@ -67,6 +67,7 @@ const MyDayForm = ({ picturePath }) => {
       <FlexBetween gap="1.5rem">
         <AvatarImage image={picturePath} />
         <InputBase
+          id="day-field"
           placeholder="What did you do today?"
           onChange={e => setDay(e.target.value)}
           value={day}
